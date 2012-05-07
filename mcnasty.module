@@ -28,9 +28,9 @@ function mcnasty_filter_info() {
 function mcnasty_filter_nasty_words($text) {
   
   $filtered_text =  $text;
-  $expressions = '/\b(ass|bitch|fuck)\b/' ;
-  $onlyconsonants = preg_replace($expressions, "[redacted]",  $filtered_text);
-
+  $list_word = file_get_contents('badwords.txt', true);
+  $expressions = '/\b('.$list_word.')\b/' ;
+  $onlyconsonants = preg_replace($expressions, '[redacted]',  $filtered_text);
   return $onlyconsonants; 
 }
 
@@ -46,5 +46,6 @@ function mcnasty_node_validate($node, $form, &$form_state) {
     if ($body_text != $filtered) {
       drupal_set_message('WHOOPS! You used bad words. They will not show.. hahaha', $type = 'error', $repeat = FALSE);
     }
+
     
 }

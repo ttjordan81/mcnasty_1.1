@@ -1,0 +1,50 @@
+<?php
+
+
+/**
+ * Implements hook_filter_info();
+ */
+function mcnasty_filter_info() {
+  $filters = array();
+  $filters['mcnasty'] = array(
+    'title' => t('Filter out bad words'),
+    'description' => t('Wash your keyboard out with soap'),
+    'process callback' => 'mcnasty_filter_nasty_words',
+  );
+
+  return $filters;
+}
+
+/**
+ * Given a piece of text, this function will remove a predefined
+ * list of swear words.
+ *
+ * @param string $text
+ *  The text to filter.
+ *
+ * @return string
+ *  The filtered text.
+ */ 
+function mcnasty_filter_nasty_words($text) {
+  
+  $filtered_text =  $text;
+  $expressions = '/\b(ass|bitch|fuck)\b/' ;
+  $onlyconsonants = preg_replace($expressions, "[redacted]",  $filtered_text);
+
+  return $onlyconsonants; 
+}
+
+/**
+ * Validate the form and checks for badwords. Will phase through
+ * but will send an error message. 
+ */ 
+
+function mcnasty_node_validate($node, $form, &$form_state) {
+
+    $body_text = $form_state['values']['body'][LANGUAGE_NONE]['0']['value'];
+    $filtered = mcnasty_filter_nasty_words($body_text);
+    if ($body_text != $filtered) {
+      drupal_set_message('WHOOPS! You used bad words. They will not show.. hahaha', $type = 'error', $repeat = FALSE);
+    }
+    
+}

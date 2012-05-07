@@ -1,0 +1,5 @@
+name = McNasty Filter
+description = McNasty filters any bad words.
+core = 7.x
+
+ 

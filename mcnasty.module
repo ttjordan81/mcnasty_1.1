@@ -15,16 +15,7 @@ function mcnasty_filter_info() {
   return $filters;
 }
 
-/**
- * Given a piece of text, this function will remove a predefined
- * list of swear words.
- *
- * @param string $text
- *  The text to filter.
- *
- * @return string
- *  The filtered text.
- */ 
+
 function mcnasty_filter_nasty_words($text) {
   
   $filtered_text =  $text;
